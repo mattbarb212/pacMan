@@ -37,12 +37,12 @@
             // 
             // gameTimer
             // 
-            this.gameTimer.Enabled = true;
             this.gameTimer.Interval = 20;
             this.gameTimer.Tick += new System.EventHandler(this.GameTimer_Tick);
             // 
             // titleLabel
             // 
+            this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Pioneer BT", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.Color.Gold;
             this.titleLabel.Location = new System.Drawing.Point(103, 36);
@@ -54,7 +54,7 @@
             // 
             // playButton
             // 
-            this.playButton.BackColor = System.Drawing.Color.Black;
+            this.playButton.BackColor = System.Drawing.Color.Transparent;
             this.playButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.playButton.FlatAppearance.BorderSize = 0;
             this.playButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -71,7 +71,7 @@
             // 
             // controlsButton
             // 
-            this.controlsButton.BackColor = System.Drawing.Color.Black;
+            this.controlsButton.BackColor = System.Drawing.Color.Transparent;
             this.controlsButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.controlsButton.FlatAppearance.BorderSize = 0;
             this.controlsButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
