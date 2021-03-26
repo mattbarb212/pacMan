@@ -46,9 +46,9 @@
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Pioneer BT", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.Color.Gold;
-            this.titleLabel.Location = new System.Drawing.Point(103, 36);
+            this.titleLabel.Location = new System.Drawing.Point(12, 36);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(282, 74);
+            this.titleLabel.Size = new System.Drawing.Size(476, 74);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "PacMan";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;

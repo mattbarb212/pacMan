@@ -1718,6 +1718,7 @@ namespace pacMan
                 gameTimer.Enabled = false;
 
                 titleLabel.Text = "!!!Victory!!!";
+                scoreLabel.Text = "";
             }
 
             Refresh();
