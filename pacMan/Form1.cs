@@ -8,39 +8,68 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/// Matthew Barber
+/// PacMan
+/// March, 2021
+
 namespace pacMan
 {
     public partial class pacMan : Form
     {
+        Image pacManUpImage;
+        Image pacManBaseImage;
+        Image pacManMouthClosedImage;
+
+        #region Integers
         int borderX = 3;
         int borderY = 3;
         int borderWidth = 354;
         int borderHeight = 494;
         int pacManX = 175;
-        int pacManY = 310;
-        int pacManHeight = 15;
-        int pacManWidth = 15;
+        int pacManY = 295;
+        int pacManHeight = 20;
+        int pacManWidth = 20;
         int pacManSpeed = 3;
         int borderLineWidth = 5;
+        int score = 0000;
+        int animationCounter = 1;
+        int ghostSpeed = 5;
+        #endregion
 
         #region Key Binds
         bool upDown = false;
         bool downDown = false;
         bool leftDown = false;
         bool rightDown = false;
-        bool spaceBar = false;
         #endregion
 
+        #region Lists
         List<int> wallXList = new List<int>();
         List<int> wallYList = new List<int>();
         List<int> wallWidthList = new List<int>();
         List<int> wallHeightList = new List<int>();
+        List<int> orbXList = new List<int>();
+        List<int> orbYList = new List<int>();
+        List<int> orbWidthList = new List<int>();
+        List<int> orbHeightList = new List<int>();
+        List<int> ghostXList = new List<int>();
+        List<int> ghostYList = new List<int>();
+        List<int> ghostWidthList = new List<int>();
+        List<int> ghostHeightList = new List<int>();
+        List<string> ghostColorList = new List<string>();
+        #endregion
 
         string gameState = "waiting";
 
-        SolidBrush goldBrush = new SolidBrush(Color.Gold);
+        #region Brushes
+        SolidBrush whiteBrush = new SolidBrush(Color.White);
         SolidBrush blueBrush = new SolidBrush(Color.Blue);
+        SolidBrush redBrush = new SolidBrush(Color.Red);
+        SolidBrush pinkBrush = new SolidBrush(Color.Pink);
+        SolidBrush cyanBrush = new SolidBrush(Color.Cyan);
+        SolidBrush orangeBrush = new SolidBrush(Color.Orange);
         Pen bluePen = new Pen(Color.Blue, 5);
+        #endregion
 
         public pacMan()
         {
@@ -49,12 +78,18 @@ namespace pacMan
         public void GameInitialize()
         {
             titleLabel.Text = "";
+            scoreLabel.Text = $"Score\n{score.ToString("0000")}";
             playButton.Visible = false;
             controlsButton.Visible = false;
             gameTimer.Enabled = true;
             gameState = "running";
             this.Focus();
 
+            pacManUpImage = Properties.Resources.PacManUpMouthOpen;
+            pacManMouthClosedImage = Properties.Resources.PacManOpenClosed;
+            pacManBaseImage = Properties.Resources.pacmanBaseImage;
+
+            #region Map Wall Locations
             wallXList.Add(220);
             wallYList.Add(460);
             wallWidthList.Add(90);
@@ -226,14 +261,1273 @@ namespace pacMan
             wallHeightList.Add(5);
 
             wallXList.Add(265);
-            wallYList.Add(200);
+            wallYList.Add(160);
             wallWidthList.Add(5);
             wallHeightList.Add(40);
 
             wallXList.Add(100);
-            wallYList.Add(200);
+            wallYList.Add(160);
             wallWidthList.Add(5);
             wallHeightList.Add(40);
+
+            wallXList.Add(50);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+
+            wallXList.Add(310);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+
+            wallXList.Add(220);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+
+            wallXList.Add(145);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+
+            wallXList.Add(145);
+            wallYList.Add(270);
+            wallWidthList.Add(80);
+            wallHeightList.Add(5);
+
+            wallXList.Add(95);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+
+            wallXList.Add(265);
+            wallYList.Add(230);
+            wallWidthList.Add(5);
+            wallHeightList.Add(40);
+            #endregion
+
+            #region Orb Locations
+            orbXList.Add(20);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(20);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(40);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(80);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(80);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(40);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(40);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(80);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(80);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(60);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(40);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(100);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(180);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(160);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(140);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(120);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(480);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(460);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(420);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(420);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(460);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(460);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(460);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(420);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(420);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(460);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(400);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(320);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(340);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(380);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(360);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(440);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(20);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(280);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(340);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(320);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(300);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(280);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(260);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(220);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(200);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(160);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(140);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(100);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(80);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(60);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(40);
+            orbYList.Add(220);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(70);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(70);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(120);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(240);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(290);
+            orbYList.Add(240);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(290);
+            orbYList.Add(260);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+
+            orbXList.Add(180);
+            orbYList.Add(200);
+            orbWidthList.Add(5);
+            orbHeightList.Add(5);
+            #endregion
+
+            #region Ghost Locations
+            ghostXList.Add(180);
+            ghostYList.Add(245);
+            ghostWidthList.Add(20);
+            ghostHeightList.Add(20);
+            ghostColorList.Add("pink");
+
+            ghostXList.Add(180);
+            ghostYList.Add(240);
+            ghostWidthList.Add(20);
+            ghostHeightList.Add(20);
+            ghostColorList.Add("red");
+
+            ghostXList.Add(160);
+            ghostYList.Add(245);
+            ghostWidthList.Add(20);
+            ghostHeightList.Add(20);
+            ghostColorList.Add("cyan");
+
+            ghostXList.Add(160);
+            ghostYList.Add(240);
+            ghostWidthList.Add(20);
+            ghostHeightList.Add(20);
+            ghostColorList.Add("orange");
+            #endregion
         }
         private void PlayButton_Click(object sender, EventArgs e)
         {
@@ -241,10 +1535,12 @@ namespace pacMan
         }
         private void PacMan_KeyDown(object sender, KeyEventArgs e)
         {
+            #region Key Dow Binds
             switch (e.KeyCode)
             {
                 case Keys.Up:
                     upDown = true;
+                    animationCounter = 1;
                     break;
                 case Keys.Down:
                     downDown = true;
@@ -256,7 +1552,6 @@ namespace pacMan
                     leftDown = true;
                     break;
                 case Keys.Space:
-                    spaceBar = true;
                     if (gameState == "waiting" || gameState == "over")
                     {
                         GameInitialize();
@@ -269,14 +1564,17 @@ namespace pacMan
                     }
                     break;
             }
+            #endregion
         }
 
         private void PacMan_KeyUp(object sender, KeyEventArgs e)
         {
+            #region Key Up Binds
             switch (e.KeyCode)
             {
                 case Keys.Up:
                     upDown = false;
+                    animationCounter = 1;
                     break;
                 case Keys.Down:
                     downDown = false;
@@ -288,6 +1586,7 @@ namespace pacMan
                     leftDown = false;
                     break;
             }
+            #endregion
         }
 
         private void PacMan_Paint(object sender, PaintEventArgs e)
@@ -295,56 +1594,65 @@ namespace pacMan
             if (gameState == "running")
             {
                 e.Graphics.DrawRectangle(bluePen, borderX, borderY, borderWidth, borderHeight);
-                e.Graphics.FillEllipse(goldBrush, pacManX, pacManY, pacManWidth, pacManHeight);
-                //e.Graphics.DrawLine(bluePen, 220, 460, 310, 460);
-                //e.Graphics.DrawLine(bluePen, 50, 460, 150, 460);
-                //e.Graphics.DrawLine(bluePen, 360, 420, 310, 420);
-                //e.Graphics.DrawLine(bluePen, 0, 420, 50, 420);
-                //e.Graphics.DrawLine(bluePen, 150, 420, 220, 420);
-                //e.Graphics.DrawLine(bluePen, 265, 420, 265, 460);
-                //e.Graphics.DrawLine(bluePen, 185, 420, 185, 460);
-                //e.Graphics.DrawLine(bluePen, 100, 420, 100, 460);
-                //e.Graphics.DrawLine(bluePen, 220, 380, 265, 380);
-                //e.Graphics.DrawLine(bluePen, 150, 380, 100, 380);
-                //e.Graphics.DrawLine(bluePen, 50, 380, 50, 340);
-                //e.Graphics.DrawLine(bluePen, 310, 380, 310, 340);
-                //e.Graphics.DrawLine(bluePen, 150, 340, 220, 340);
-                //e.Graphics.DrawLine(bluePen, 185, 340, 185, 380);
-                //e.Graphics.DrawLine(bluePen, 0, 300, 150, 300);
-                //e.Graphics.DrawLine(bluePen, 220, 300, 360, 300);
-                //e.Graphics.DrawLine(bluePen, 265, 300, 265, 340);
-                //e.Graphics.DrawLine(bluePen, 100, 300, 100, 340);
-                //e.Graphics.DrawLine(bluePen, 220, 40, 310, 40);
-                //e.Graphics.DrawLine(bluePen, 50, 40, 150, 40);
-                //e.Graphics.DrawLine(bluePen, 360, 80, 310, 80);
-                //e.Graphics.DrawLine(bluePen, 0, 80, 50, 80);
-                //e.Graphics.DrawLine(bluePen, 150, 80, 220, 80);
-                //e.Graphics.DrawLine(bluePen, 265, 80, 265, 40);
-                //e.Graphics.DrawLine(bluePen, 185, 80, 185, 40);
-                //e.Graphics.DrawLine(bluePen, 100, 80, 100, 40);
-                //e.Graphics.DrawLine(bluePen, 220, 120, 265, 120);
-                //e.Graphics.DrawLine(bluePen, 150, 120, 100, 120);
-                //e.Graphics.DrawLine(bluePen, 50, 120, 50, 160);
-                //e.Graphics.DrawLine(bluePen, 310, 120, 310, 160);
-                //e.Graphics.DrawLine(bluePen, 150, 160, 220, 160);
-                //e.Graphics.DrawLine(bluePen, 185, 160, 185, 120);
-                //e.Graphics.DrawLine(bluePen, 0, 200, 150, 200);
-                //e.Graphics.DrawLine(bluePen, 220, 200, 360, 200);
-                //e.Graphics.DrawLine(bluePen, 265, 200, 265, 160);
-                //e.Graphics.DrawLine(bluePen, 100, 200, 100, 160);
+                e.Graphics.DrawImage(pacManBaseImage, pacManX, pacManY, pacManWidth, pacManHeight);
+
                 for (int i = 0; i < wallXList.Count; i++)
                 {
                     e.Graphics.FillRectangle(blueBrush, wallXList[i], wallYList[i], wallWidthList[i], wallHeightList[i]);
                 }
+                for (int i = 0; i < orbXList.Count; i++)
+                {
+                    e.Graphics.FillRectangle(whiteBrush, orbXList[i], orbYList[i], orbWidthList[i], orbHeightList[i]);
+                }
+                for (int i = 0; i < ghostXList.Count; i++)
+                {
+                    if (ghostColorList[i] == "pink")
+                    {
+                        e.Graphics.FillRectangle(pinkBrush, ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
+                    }
+                    if (ghostColorList[i] == "red")
+                    {
+                        e.Graphics.FillRectangle(redBrush, ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
+                    }
+                    if (ghostColorList[i] == "cyan")
+                    {
+                        e.Graphics.FillRectangle(cyanBrush, ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
+                    }
+                    if (ghostColorList[i] == "orange")
+                    {
+                        e.Graphics.FillRectangle(orangeBrush, ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
+                    }
+                }
             }
         }
 
+
+
         private void GameTimer_Tick(object sender, EventArgs e)
-        {            
+        {
+            int origX = pacManX;
+            int origY = pacManY;
+
             //Move Player
             if (upDown == true && pacManY > borderY + 6)
             {
                 pacManY -= pacManSpeed;
+
+                if (animationCounter < 4)
+                {
+                    pacManBaseImage = pacManUpImage;
+                }
+                else if (animationCounter < 7)
+                {
+                    pacManUpImage = pacManMouthClosedImage;
+                }
+
+                animationCounter++;
+
+                if (animationCounter == 7)
+                {
+                    animationCounter = 1;
+                }
             }
 
             if (downDown == true && pacManY < borderHeight - pacManHeight)
@@ -360,8 +1668,59 @@ namespace pacMan
                 pacManX += pacManSpeed;
             }
 
+            Rectangle pacRec = new Rectangle(pacManX, pacManY, pacManWidth, pacManHeight);            
+
+            for (int i = 0; i < wallXList.Count; i++)
+            {
+                Rectangle wallsRec = new Rectangle(wallXList[i], wallYList[i], wallWidthList[i], wallHeightList[i]);
+
+                if (pacRec.IntersectsWith(wallsRec))
+                {
+                    pacManX = origX;
+                    pacManY = origY;
+                }
+                for (int j = 0; j < ghostXList.Count; j++)
+                {
+                    Rectangle ghostsRec = new Rectangle(ghostXList[j], ghostYList[j], ghostWidthList[j], ghostHeightList[j]);
+
+                    if (ghostsRec.IntersectsWith(wallsRec))
+                    {
+                        ghostXList[j] -= ghostSpeed;
+                        ghostYList[j] -= ghostSpeed;
+                    }
+                    if (gameState == "running")
+                    {
+                        ghostYList[j] -= ghostSpeed;
+                    }
+                }
+            }
+            for (int i = 0; i < orbXList.Count; i++)
+            {
+                Rectangle orbsRec = new Rectangle(orbXList[i], orbYList[i], orbWidthList[i], orbHeightList[i]);
+
+                if (pacRec.IntersectsWith(orbsRec))
+                {
+                    score += 10;
+                    orbXList.RemoveAt(i);
+                    orbYList.RemoveAt(i);
+                    orbWidthList.RemoveAt(i);
+                    orbHeightList.RemoveAt(i);
+
+                    scoreLabel.Text = $"Score\n{score.ToString("0000")}";
+                }
+
+                
+            }
+            if (orbXList.Count == 0)
+            {
+                gameState = "over";
+                gameTimer.Enabled = false;
+
+                titleLabel.Text = "!!!Victory!!!";
+            }
+
             Refresh();
-        }        
+        }
     }
 }
 
