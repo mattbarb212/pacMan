@@ -1540,7 +1540,7 @@ namespace pacMan
             {
                 case Keys.Up:
                     upDown = true;
-                    animationCounter = 1;
+                    
                     break;
                 case Keys.Down:
                     downDown = true;
@@ -1575,6 +1575,7 @@ namespace pacMan
                 case Keys.Up:
                     upDown = false;
                     animationCounter = 1;
+                    pacManBaseImage = pacManMouthClosedImage;
                     break;
                 case Keys.Down:
                     downDown = false;
@@ -1644,12 +1645,12 @@ namespace pacMan
                 }
                 else if (animationCounter < 7)
                 {
-                    pacManUpImage = pacManMouthClosedImage;
+                    pacManBaseImage = pacManMouthClosedImage;
                 }
 
                 animationCounter++;
 
-                if (animationCounter == 7)
+                if (animationCounter >= 7)
                 {
                     animationCounter = 1;
                 }
@@ -1679,20 +1680,20 @@ namespace pacMan
                     pacManX = origX;
                     pacManY = origY;
                 }
-                for (int j = 0; j < ghostXList.Count; j++)
-                {
-                    Rectangle ghostsRec = new Rectangle(ghostXList[j], ghostYList[j], ghostWidthList[j], ghostHeightList[j]);
+                //for (int j = 0; j < ghostXList.Count; j++)
+                //{
+                //    Rectangle ghostsRec = new Rectangle(ghostXList[j], ghostYList[j], ghostWidthList[j], ghostHeightList[j]);
 
-                    if (ghostsRec.IntersectsWith(wallsRec))
-                    {
-                        ghostXList[j] -= ghostSpeed;
-                        ghostYList[j] -= ghostSpeed;
-                    }
-                    if (gameState == "running")
-                    {
-                        ghostYList[j] -= ghostSpeed;
-                    }
-                }
+                //    if (ghostsRec.IntersectsWith(wallsRec))
+                //    {
+                //        ghostXList[j] -= ghostSpeed;
+                //        ghostYList[j] -= ghostSpeed;
+                //    }
+                //    if (gameState == "running")
+                //    {
+                //        ghostYList[j] -= ghostSpeed;
+                //    }
+                //}
             }
             for (int i = 0; i < orbXList.Count; i++)
             {
