@@ -1543,7 +1543,7 @@ namespace pacMan
             ghostWidthList.Add(20);
             ghostHeightList.Add(20);
             ghostColorList.Add("pink");
-            ghostYSpeedList.Add(-5);
+            ghostYSpeedList.Add(-4);
             ghostXSpeedList.Add(0);
 
             ghostXList.Add(330);
@@ -1551,7 +1551,7 @@ namespace pacMan
             ghostWidthList.Add(20);
             ghostHeightList.Add(20);
             ghostColorList.Add("red");
-            ghostYSpeedList.Add(-5);
+            ghostYSpeedList.Add(-4);
             ghostXSpeedList.Add(0);
 
             ghostXList.Add(10);
@@ -1559,7 +1559,7 @@ namespace pacMan
             ghostWidthList.Add(20);
             ghostHeightList.Add(20);
             ghostColorList.Add("cyan");
-            ghostYSpeedList.Add(-5);
+            ghostYSpeedList.Add(-4);
             ghostXSpeedList.Add(0);
 
             ghostXList.Add(330);
@@ -1567,7 +1567,7 @@ namespace pacMan
             ghostWidthList.Add(20);
             ghostHeightList.Add(20);
             ghostColorList.Add("orange");
-            ghostYSpeedList.Add(-5);
+            ghostYSpeedList.Add(-4);
             ghostXSpeedList.Add(0);
             #endregion
         }
@@ -1807,11 +1807,11 @@ namespace pacMan
                         ghostYList[j] = ghostY;
                         if (direction == 1)
                         {
-                            ghostXSpeedList[j] = -5;
+                            ghostXSpeedList[j] = -4;
                         }
                         else
                         {
-                            ghostXSpeedList[j] = 5;
+                            ghostXSpeedList[j] = 4;
                         }
                         ghostYSpeedList[j] = 0;
                         break;
@@ -1823,11 +1823,11 @@ namespace pacMan
 
                         if (direction == 1)
                         {
-                            ghostYSpeedList[j] = -5;
+                            ghostYSpeedList[j] = -4;
                         }
                         else
                         {
-                            ghostYSpeedList[j] = 5;
+                            ghostYSpeedList[j] = 4;
                         }
                         ghostXSpeedList[j] = 0;
                         break;
@@ -1860,7 +1860,17 @@ namespace pacMan
                     pacManX = 175;
                     pacManY = 295;
 
+                    ghostXList[0] = 10;
+                    ghostYList[0] = 10;
 
+                    ghostXList[1] = 330;
+                    ghostYList[1] = 10;
+
+                    ghostXList[2] = 10;
+                    ghostYList[2] = 450;
+
+                    ghostXList[3] = 330;
+                    ghostYList[3] = 450;
                 }
                    
             }
@@ -1869,6 +1879,13 @@ namespace pacMan
                 gameState = "over";
                 gameTimer.Enabled = false;
                 titleLabel.Text = "!!!Victory!!!";
+                scoreLabel.Text = "";
+            }
+            if (lives == 0)
+            {
+                gameState = "over";
+                gameTimer.Enabled = false;
+                titleLabel.Text = "You Lose";
                 scoreLabel.Text = "";
             }
 
