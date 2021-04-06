@@ -34,6 +34,7 @@
             this.playButton = new System.Windows.Forms.Button();
             this.controlsButton = new System.Windows.Forms.Button();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.livesLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -97,12 +98,24 @@
             this.scoreLabel.Size = new System.Drawing.Size(112, 85);
             this.scoreLabel.TabIndex = 3;
             // 
+            // livesLabel
+            // 
+            this.livesLabel.BackColor = System.Drawing.Color.Transparent;
+            this.livesLabel.Enabled = false;
+            this.livesLabel.Font = new System.Drawing.Font("Pioneer BT", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.livesLabel.ForeColor = System.Drawing.Color.Red;
+            this.livesLabel.Location = new System.Drawing.Point(402, 121);
+            this.livesLabel.Name = "livesLabel";
+            this.livesLabel.Size = new System.Drawing.Size(70, 49);
+            this.livesLabel.TabIndex = 4;
+            // 
             // pacMan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(500, 500);
+            this.Controls.Add(this.livesLabel);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.controlsButton);
             this.Controls.Add(this.playButton);
@@ -126,6 +139,7 @@
         private System.Windows.Forms.Button playButton;
         private System.Windows.Forms.Button controlsButton;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label livesLabel;
     }
 }
 
