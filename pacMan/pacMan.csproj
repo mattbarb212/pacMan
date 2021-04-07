@@ -52,10 +52,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -81,6 +90,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\pacman-chomp.zip" />
     <None Include="Resources\PacManUpMouthOpen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +107,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pacmanBaseImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\266163__plasterbrain__pacman-is-dead.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pacman_Moving.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\251419__tritus__you-win-the-fight.aiff" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\518855__mrickey13__fight-win-tune %281%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\171672__leszek-szary__failure-2 %281%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pacman_ghost.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

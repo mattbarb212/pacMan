@@ -35,6 +35,10 @@
             this.controlsButton = new System.Windows.Forms.Button();
             this.scoreLabel = new System.Windows.Forms.Label();
             this.livesLabel = new System.Windows.Forms.Label();
+            this.controlsLabel = new System.Windows.Forms.Label();
+            this.backButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // gameTimer
@@ -47,7 +51,7 @@
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Pioneer BT", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.Color.Gold;
-            this.titleLabel.Location = new System.Drawing.Point(12, 36);
+            this.titleLabel.Location = new System.Drawing.Point(12, 9);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(476, 74);
             this.titleLabel.TabIndex = 0;
@@ -63,13 +67,14 @@
             this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.playButton.Font = new System.Drawing.Font("Pioneer BT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.playButton.ForeColor = System.Drawing.Color.Gold;
-            this.playButton.Location = new System.Drawing.Point(153, 184);
+            this.playButton.Location = new System.Drawing.Point(169, 131);
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(167, 27);
             this.playButton.TabIndex = 1;
             this.playButton.Text = "Play Game";
             this.playButton.UseVisualStyleBackColor = false;
             this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
+            this.playButton.Enter += new System.EventHandler(this.PlayButton_Enter);
             // 
             // controlsButton
             // 
@@ -80,12 +85,14 @@
             this.controlsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.controlsButton.Font = new System.Drawing.Font("Pioneer BT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.controlsButton.ForeColor = System.Drawing.Color.Gold;
-            this.controlsButton.Location = new System.Drawing.Point(153, 255);
+            this.controlsButton.Location = new System.Drawing.Point(169, 213);
             this.controlsButton.Name = "controlsButton";
             this.controlsButton.Size = new System.Drawing.Size(167, 27);
             this.controlsButton.TabIndex = 2;
             this.controlsButton.Text = "Controls";
             this.controlsButton.UseVisualStyleBackColor = false;
+            this.controlsButton.Click += new System.EventHandler(this.ControlsButton_Click);
+            this.controlsButton.Enter += new System.EventHandler(this.ControlsButton_Enter);
             // 
             // scoreLabel
             // 
@@ -93,7 +100,7 @@
             this.scoreLabel.Enabled = false;
             this.scoreLabel.Font = new System.Drawing.Font("Pioneer BT", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scoreLabel.ForeColor = System.Drawing.Color.Blue;
-            this.scoreLabel.Location = new System.Drawing.Point(376, 36);
+            this.scoreLabel.Location = new System.Drawing.Point(376, 83);
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(112, 85);
             this.scoreLabel.TabIndex = 3;
@@ -104,10 +111,52 @@
             this.livesLabel.Enabled = false;
             this.livesLabel.Font = new System.Drawing.Font("Pioneer BT", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.livesLabel.ForeColor = System.Drawing.Color.Red;
-            this.livesLabel.Location = new System.Drawing.Point(402, 121);
+            this.livesLabel.Location = new System.Drawing.Point(402, 157);
             this.livesLabel.Name = "livesLabel";
             this.livesLabel.Size = new System.Drawing.Size(70, 49);
             this.livesLabel.TabIndex = 4;
+            // 
+            // controlsLabel
+            // 
+            this.controlsLabel.BackColor = System.Drawing.Color.Transparent;
+            this.controlsLabel.Font = new System.Drawing.Font("Pioneer BT", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.controlsLabel.ForeColor = System.Drawing.Color.White;
+            this.controlsLabel.Location = new System.Drawing.Point(12, 83);
+            this.controlsLabel.Name = "controlsLabel";
+            this.controlsLabel.Size = new System.Drawing.Size(476, 320);
+            this.controlsLabel.TabIndex = 5;
+            this.controlsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.controlsLabel.Visible = false;
+            // 
+            // backButton
+            // 
+            this.backButton.BackColor = System.Drawing.Color.Transparent;
+            this.backButton.Enabled = false;
+            this.backButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.backButton.FlatAppearance.BorderSize = 0;
+            this.backButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
+            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.backButton.Font = new System.Drawing.Font("Pioneer BT", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backButton.ForeColor = System.Drawing.Color.Gold;
+            this.backButton.Location = new System.Drawing.Point(169, 316);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(167, 27);
+            this.backButton.TabIndex = 6;
+            this.backButton.Text = "Back";
+            this.backButton.UseVisualStyleBackColor = false;
+            this.backButton.Visible = false;
+            this.backButton.Click += new System.EventHandler(this.BackButton_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::pacMan.Properties.Resources.PacManRightMouthOpen;
+            this.pictureBox1.Location = new System.Drawing.Point(44, 69);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(444, 406);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // pacMan
             // 
@@ -115,11 +164,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(500, 500);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.livesLabel);
-            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.controlsButton);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.titleLabel);
+            this.Controls.Add(this.controlsLabel);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.scoreLabel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "pacMan";
@@ -128,6 +180,7 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.PacMan_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PacMan_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PacMan_KeyUp);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -140,6 +193,9 @@
         private System.Windows.Forms.Button controlsButton;
         private System.Windows.Forms.Label scoreLabel;
         private System.Windows.Forms.Label livesLabel;
+        private System.Windows.Forms.Label controlsLabel;
+        private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

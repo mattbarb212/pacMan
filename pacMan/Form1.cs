@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using System.Threading;
 
 /// Matthew Barber
 /// PacMan
@@ -23,6 +25,12 @@ namespace pacMan
         Image pacManDownImage;
         Image pacManBaseImage;
         Image pacManMouthClosedImage;
+        #endregion
+
+        #region Sounds
+        SoundPlayer death = new SoundPlayer(Properties.Resources.PacMan_Death);
+        SoundPlayer win = new SoundPlayer(Properties.Resources.Pacman_Win);
+        SoundPlayer loss = new SoundPlayer(Properties.Resources.Pacman_Loss);
         #endregion
 
         #region Integers
@@ -86,6 +94,9 @@ namespace pacMan
 
         public pacMan()
         {
+            Form2 F2 = new Form2();
+            F2.Show();
+            Cursor.Hide();
             InitializeComponent();
         }
         public void GameInitialize()
@@ -97,6 +108,7 @@ namespace pacMan
             gameTimer.Enabled = true;
             gameState = "running";
             livesLabel.Text = $"{lives}";
+            controlsLabel.Text = "";
             this.Focus();
 
             #region Images
@@ -346,95 +358,120 @@ namespace pacMan
             #endregion
 
             #region Invisible Wall Locations
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(0);
+            invisibleWallXList.Add(165);
+            invisibleWallYList.Add(10);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(145);
-            invisibleWallYList.Add(0);
+            invisibleWallXList.Add(200);
+            invisibleWallYList.Add(10);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(220);
-            invisibleWallYList.Add(0);
+            invisibleWallXList.Add(165);
+            invisibleWallYList.Add(90);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(80);
+            invisibleWallYList.Add(90);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(145);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(200);
+            invisibleWallYList.Add(90);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(100);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(280);
+            invisibleWallYList.Add(90);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(50);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(280);
+            invisibleWallYList.Add(135);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(220);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(245);
+            invisibleWallYList.Add(135);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(265);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(120);
+            invisibleWallYList.Add(135);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(310);
-            invisibleWallYList.Add(80);
+            invisibleWallXList.Add(80);
+            invisibleWallYList.Add(135);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
-
-            invisibleWallXList.Add(265);
-            invisibleWallYList.Add(80);
-            invisibleWallWidthList.Add(40);
-            invisibleWallHeightList.Add(5);
-
-            //invisibleWallXList.Add(50);
-            //invisibleWallYList.Add(80);
-            //invisibleWallWidthList.Add(40);
-            //invisibleWallHeightList.Add(5);
+            invisibleWallHeightList.Add(10);
 
             invisibleWallXList.Add(185);
-            invisibleWallYList.Add(160);
+            invisibleWallYList.Add(180);
             invisibleWallWidthList.Add(5);
             invisibleWallHeightList.Add(40);
 
             invisibleWallXList.Add(185);
-            invisibleWallYList.Add(200);
-            invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(30);
-
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(270);
+            invisibleWallYList.Add(290);
             invisibleWallWidthList.Add(5);
             invisibleWallHeightList.Add(40);
 
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(310);
+            invisibleWallXList.Add(200);
+            invisibleWallYList.Add(400);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(380);
+            invisibleWallXList.Add(160);
+            invisibleWallYList.Add(400);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
 
-            invisibleWallXList.Add(185);
-            invisibleWallYList.Add(460);
+            invisibleWallXList.Add(240);
+            invisibleWallYList.Add(400);
             invisibleWallWidthList.Add(5);
-            invisibleWallHeightList.Add(40);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(280);
+            invisibleWallYList.Add(400);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(120);
+            invisibleWallYList.Add(400);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(80);
+            invisibleWallYList.Add(400);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(120);
+            invisibleWallYList.Add(360);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(240);
+            invisibleWallYList.Add(360);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(80);
+            invisibleWallYList.Add(360);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(200);
+            invisibleWallYList.Add(475);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
+
+            invisibleWallXList.Add(160);
+            invisibleWallYList.Add(475);
+            invisibleWallWidthList.Add(5);
+            invisibleWallHeightList.Add(10);
             #endregion
 
             #region Orb Locations
@@ -1668,6 +1705,35 @@ namespace pacMan
             ghostXSpeedList.Add(0);
             #endregion
         }
+        public void GameOver()
+        {
+            gameState = "over";
+            gameTimer.Enabled = false;
+            ghostXList.Clear();
+            ghostYList.Clear();
+            ghostHeightList.Clear();
+            ghostWidthList.Clear();
+            orbXList.Clear();
+            orbYList.Clear();
+            orbWidthList.Clear();
+            orbHeightList.Clear();
+            wallXList.Clear();
+            wallYList.Clear();
+            wallWidthList.Clear();
+            wallHeightList.Clear();
+            scoreLabel.Text = "";
+            livesLabel.Text = "";
+
+            pictureBox1.Visible = true;
+            Refresh();
+            Thread.Sleep(1000);
+            playButton.Visible = true;
+            controlsButton.Visible = true;
+            titleLabel.Text = "PacMan";
+            pictureBox1.Visible = false;
+            lives = 3;
+            
+        }
         private void PlayButton_Click(object sender, EventArgs e)
         {
             GameInitialize();
@@ -1737,15 +1803,12 @@ namespace pacMan
 
         private void PacMan_Paint(object sender, PaintEventArgs e)
         {
+            #region Drawing Map
             if (gameState == "running")
             {
-                //e.Graphics.DrawRectangle(bluePen, borderX, borderY, borderWidth, borderHeight);
+                
                 e.Graphics.DrawImage(pacManBaseImage, pacManX, pacManY, pacManWidth, pacManHeight);
 
-                for (int i = 0; i < invisibleWallXList.Count; i++)
-                {
-                    e.Graphics.FillRectangle(redBrush, invisibleWallXList[i], invisibleWallYList[i], invisibleWallWidthList[i], invisibleWallHeightList[i]);
-                }
                 for (int i = 0; i < wallXList.Count; i++)
                 {
                     e.Graphics.FillRectangle(blueBrush, wallXList[i], wallYList[i], wallWidthList[i], wallHeightList[i]);
@@ -1774,6 +1837,7 @@ namespace pacMan
                     }
                 }
             }
+            #endregion
         }
 
 
@@ -1789,6 +1853,7 @@ namespace pacMan
             if (upDown == true && pacManY > borderY + 6)
             {
                 pacManY -= pacManSpeed;
+                
 
                 if (animationCounter < 4)
                 {
@@ -1810,6 +1875,7 @@ namespace pacMan
             if (downDown == true && pacManY < borderHeight - pacManHeight)
             {
                 pacManY += pacManSpeed;
+                
 
                 if (animationCounter < 4)
                 {
@@ -1830,6 +1896,7 @@ namespace pacMan
             if (leftDown == true && pacManX > borderX + borderLineWidth)
             {
                 pacManX -= pacManSpeed;
+                
 
                 if (animationCounter < 4)
                 {
@@ -1850,6 +1917,7 @@ namespace pacMan
             if (rightDown == true && pacManX < borderWidth - pacManWidth)
             {
                 pacManX += pacManSpeed;
+                
 
                 if (animationCounter < 4)
                 {
@@ -1871,7 +1939,7 @@ namespace pacMan
 
             Rectangle pacRec = new Rectangle(pacManX, pacManY, pacManWidth, pacManHeight);
 
-
+            #region Collision for loops
             for (int i = 0; i < wallXList.Count; i++)
             {
                 Rectangle wallsRec = new Rectangle(wallXList[i], wallYList[i], wallWidthList[i], wallHeightList[i]);
@@ -1938,7 +2006,7 @@ namespace pacMan
             for (int i = 0; i < orbXList.Count; i++)
             {
                 Rectangle orbsRec = new Rectangle(orbXList[i], orbYList[i], orbWidthList[i], orbHeightList[i]);
-
+                
                 if (pacRec.IntersectsWith(orbsRec))
                 {
                     score += 10;
@@ -1952,60 +2020,139 @@ namespace pacMan
             }
             for (int i = 0; i < ghostXList.Count; i++)
             {
-                Rectangle ghostsRec = new Rectangle(ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
-                Rectangle invisibleWallRec = new Rectangle(invisibleWallXList[i], invisibleWallYList[i], invisibleWallWidthList[i], invisibleWallHeightList[i]);
+                Rectangle ghostsRec1 = new Rectangle(ghostXList[i], ghostYList[i], ghostWidthList[i], ghostHeightList[i]);
+                Rectangle ghostsRec = new Rectangle(ghostXList[i] + 5, ghostYList[i] + 5, 5, 5);
 
-                if (pacRec.IntersectsWith(ghostsRec))
+                for (int j = 0; j < invisibleWallXList.Count; j++)
                 {
-                    lives--;
+                    Rectangle invisibleWallRec = new Rectangle(invisibleWallXList[j], invisibleWallYList[j], invisibleWallWidthList[j], invisibleWallHeightList[j]);
 
-                    pacManX = 175;
-                    pacManY = 295;
-
-                    ghostXList[0] = 10;
-                    ghostYList[0] = 10;
-
-                    ghostXList[1] = 330;
-                    ghostYList[1] = 10;
-
-                    ghostXList[2] = 10;
-                    ghostYList[2] = 450;
-
-                    ghostXList[3] = 330;
-                    ghostYList[3] = 450;
-
-                    livesLabel.Text = $"{lives}";
-                }
-                if (ghostsRec.IntersectsWith(invisibleWallRec))
-                {
-                    int wallRandomNumber = randGen.Next(1, 11);
-
-                    if (wallRandomNumber < 5)
+                    if (pacRec.IntersectsWith(ghostsRec1))
                     {
-                        ghostXSpeedList[i] *= -1;
-                        ghostYSpeedList[i] *= -1;
+                        death.Play();
+
+                        lives--;
+
+                        pacManX = 175;
+                        pacManY = 295;
+
+                        ghostXList[0] = 10;
+                        ghostYList[0] = 10;
+
+                        ghostXList[1] = 330;
+                        ghostYList[1] = 10;
+
+                        ghostXList[2] = 10;
+                        ghostYList[2] = 450;
+
+                        ghostXList[3] = 330;
+                        ghostYList[3] = 450;
+
+                        livesLabel.Text = $"{lives}";
+                        Thread.Sleep(2000);
+                        return;
+                    }
+                    if (ghostsRec.IntersectsWith(invisibleWallRec))
+                    {
+                        int wallRandomNumber = randGen.Next(1, 3);
+
+                        if (wallRandomNumber < 2 && ghostYSpeedList[i] == 0)
+                        {
+                            int num;
+                            num = randGen.Next(1, 3);
+                            if (num == 1)
+                            {
+                                ghostXSpeedList[i] = 0;
+                                ghostYSpeedList[i] = -5;
+                            }
+                            else
+                            {
+                                ghostXSpeedList[i] = 0;
+                                ghostYSpeedList[i] = 5;
+                            }
+                        }
+                        if (wallRandomNumber < 20 && ghostXSpeedList[i] == 0)
+                        {
+                            int num;
+                            num = randGen.Next(1, 3);
+                            if (num == 1)
+                            {
+                                ghostYSpeedList[i] = 0;
+                                ghostXSpeedList[i] = -5;
+                            }
+                            else
+                            {
+                                ghostYSpeedList[i] = 0;
+                                ghostXSpeedList[i] = 5;
+                            }
+                        }
                     }
                 }
-            }            
-                if (orbXList.Count == 0)
+            }
+            #endregion
+
+            #region End Game
+            if (orbXList.Count == 0)
             {
-                gameState = "over";
-                gameTimer.Enabled = false;
+                win.Play();
                 titleLabel.Text = "!!!Victory!!!";
-                scoreLabel.Text = "";
-                livesLabel.Text = "";
+                GameOver();
+                return;
+
             }
             if (lives == 0)
             {
-                gameState = "over";
-                gameTimer.Enabled = false;
+                loss.Play();
                 titleLabel.Text = "You Lose";
-                scoreLabel.Text = "";
-                livesLabel.Text = "";
+                GameOver();
+                return;
             }
+            #endregion
 
             Refresh();
         }
+
+        #region Control Menu
+        private void ControlsButton_Click(object sender, EventArgs e)
+        {
+            titleLabel.Text = "Controls";
+            playButton.Visible = false;
+            controlsButton.Visible = false;
+            controlsLabel.Visible = true;
+            controlsLabel.Text = "Up Arrow = PacMan Up\nDown Arrow = PacMan Down\nLeft Arrow = PacMan Left\nRight Arrow = PacMan Right";
+
+            backButton.Visible = true;
+            backButton.Enabled = true;
+            backButton.Focus();
+            backButton.BackColor = Color.Gray;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            titleLabel.Text = "PacMan";
+            playButton.Visible = true;
+            controlsButton.Visible = true;
+            controlsLabel.Visible = false;
+            controlsLabel.Text = "";
+
+            backButton.Visible = false;
+            backButton.Enabled = false;
+        }
+        #endregion
+
+        private void PlayButton_Enter(object sender, EventArgs e)
+        {
+            playButton.BackColor = Color.Gray;
+            controlsButton.BackColor = Color.Black;
+        }
+
+        private void ControlsButton_Enter(object sender, EventArgs e)
+        {
+            playButton.BackColor = Color.Black;
+            controlsButton.BackColor = Color.Gray;
+        }
+
+        
     }
 }
 
